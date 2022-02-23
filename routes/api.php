@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Diarista\DiaristaPorCEP;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/diaristas/localidades', function(){
-    dd('cheguei aqui');
-});
+Route::get('/diaristas/localidades', DiaristaPorCEP::class)->name('diaristas.busca_por_cep');
