@@ -7,6 +7,11 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class DiaristaPublicoCollection extends ResourceCollection
 {
     public static $wrap = 'diaristas';
+    /**
+     * Guarda a quantidade de diaristas
+     *
+     * @var integer
+     */
     private int $quantidadeDiaristas;
 
     public function __construct($resource, int $quantidadeDiaristas)
@@ -20,7 +25,7 @@ class DiaristaPublicoCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'diaristas' => DiaristaPublico::collection($this->collection),

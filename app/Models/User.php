@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -46,7 +47,7 @@ class User extends Authenticatable
     /**
      * Define a relação com as cidades atendidas pela diarista
      */
-    public function cidadesAtendidas()
+    public function cidadesAtendidas(): BelongsToMany
     {
         return $this->belongsToMany(Cidade::class, 'cidade_diarista');
     }
@@ -67,15 +68,21 @@ class User extends Authenticatable
     }
 
     /**
-     * Busca 6 diaristas por código ibge
+     * Busca diaristas limitando a 6 por página
+     *
+     * @param integer $codigoIbge
+     * @return Collection
      */
-    static public function diaristaDisponivelCidade(int $codigoIbge)
+    static public function diaristaDisponivelCidade(int $codigoIbge): Collection
     {
         return User::diaristaCidade($codigoIbge)->limit(6)->get();
     }
 
     /**
-     * Retorna a quantidade de diaristas por código
+     * Retorna a quantidade de diaristas por código ibge
+     *
+     * @param integer $codigoIbge
+     * @return integer
      */
     static public function diaristaDiponivelCidadeTotal(int $codigoIbge): int
     {
